@@ -1,10 +1,15 @@
-import { Hono } from "hono";
-import { makeBlog } from "../controller/userController";
-import { updateBlog } from "../controller/userController";
-import { getBlog } from "../controller/userController";
-import { getAllBlog } from "../controller/userController";
+import { Context, Hono } from "hono";
+import {
+  makeBlog,
+  updateBlog,
+  getBlog,
+  getAllBlog,
+} from "../controller/blogController";
+import { auth } from "../middleware/authMiddleware";
 
 const blogRouter = new Hono();
+
+blogRouter.use(auth);
 
 blogRouter.post("/", makeBlog);
 blogRouter.put("/", updateBlog);

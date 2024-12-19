@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import { signup } from "../controller/blogController";
-import { signin } from "../controller/blogController";
+import { signup } from "../controller/userController";
+import { signin } from "../controller/userController";
 
 const userRouter = new Hono();
 
