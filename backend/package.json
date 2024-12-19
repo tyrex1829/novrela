@@ -1,8 +1,9 @@
 {
   "name": "backend",
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy --minify"
+    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --external:@mapbox/node-pre-gyp --external:bcrypt --outfile=dist/worker.js",
+    "dev": "wrangler dev src/index.ts",
+    "deploy": "wrangler deploy --minify src/index.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.1.0",
@@ -15,11 +16,15 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "hono": "^4.6.14",
-    "prisma": "^6.1.0",
     "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241112.0",
+    "aws-sdk": "^2.1692.0",
+    "esbuild-node-externals": "^1.16.0",
+    "mock-aws-s3": "^4.0.2",
+    "nock": "^13.5.6",
+    "prisma": "^6.1.0",
     "wrangler": "^3.88.0"
   }
 }
