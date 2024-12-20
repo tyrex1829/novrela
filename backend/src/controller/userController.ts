@@ -3,10 +3,21 @@ import bcrypt from "bcrypt";
 import { sign } from "hono/jwt";
 import { getPrismaClient } from "../db";
 import { comparePassword, hashPassword } from "../middleware/password";
+import {
+  signupInput,
+  signinInput,
+} from "@tyrex1829/novrela-common-app/dist/zod/user.js";
 
 export const signup = async (c: Context) => {
   const prisma = getPrismaClient(c);
   const body = await c.req.json();
+
+  const { success } = signupInput.safeParse(body);
+
+  if (!success) {
+    c.status(400);
+    return c.json({ error: "invalid input" });
+  }
 
   try {
     const checkUser = await prisma.user.findFirst({
@@ -51,6 +62,13 @@ export const signup = async (c: Context) => {
 export const signin = async (c: Context) => {
   const prisma = getPrismaClient(c);
   const body = await c.req.json();
+
+  const { success } = signinInput.safeParse(body);
+
+  if (!success) {
+    c.status(400);
+    return c.json({ error: "invalid input" });
+  }
 
   try {
     if (!body.email || !body.password) {

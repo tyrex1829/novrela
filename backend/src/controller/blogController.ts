@@ -1,9 +1,19 @@
 import { Context } from "hono";
 import { getPrismaClient } from "../db";
+import {
+  makeBlogPost,
+  updateBlogPost,
+} from "@tyrex1829/novrela-common-app/dist/zod/blog.js";
 
 export const makeBlog = async (c: Context) => {
   const prisma = getPrismaClient(c);
   const body = await c.req.json();
+
+  const { success } = makeBlogPost.safeParse(body);
+  if (!success) {
+    c.status(400);
+    return c.json({ error: "invalid input" });
+  }
 
   try {
     const newPost = await prisma.post.create({
@@ -46,6 +56,12 @@ export const makeBlog = async (c: Context) => {
 export const updateBlog = async (c: Context) => {
   const prisma = getPrismaClient(c);
   const body = await c.req.json();
+
+  const { success } = updateBlogPost.safeParse(body);
+  if (!success) {
+    c.status(400);
+    return c.json({ error: "invalid input" });
+  }
 
   try {
     const updatePost = await prisma.post.update({
