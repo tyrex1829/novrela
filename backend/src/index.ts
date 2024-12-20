@@ -7,7 +7,7 @@ const app = new Hono<{
     DATABASE_URL: string;
     JWT_SECRET: string;
   };
-  variable: {
+  Variable: {
     userId: string;
   };
 }>();

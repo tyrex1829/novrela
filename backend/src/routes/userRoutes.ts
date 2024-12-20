@@ -7,7 +7,7 @@ const userRouter = new Hono<{
     DATABASE_URL: string;
     JWT_SECRET: string;
   };
-  variable: {
+  Variable: {
     userId: string;
   };
 }>();
