@@ -21,7 +21,7 @@ blogRouter.use("/*", auth);
 
 blogRouter.post("/", makeBlog);
 blogRouter.put("/", updateBlog);
+blogRouter.get("/bulk", getAllBlog);
 blogRouter.get("/:id", getBlog);
-blogRouter.get("/bulk/title", getAllBlog);
 
 export default blogRouter;
