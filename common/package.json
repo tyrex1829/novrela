@@ -1,6 +1,6 @@
 {
-  "name": "@tyrex1829/novrela-common",
-  "version": "1.0.0",
+  "name": "@tyrex1829/novrela-common-app",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "type": "module",
