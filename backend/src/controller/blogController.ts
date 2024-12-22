@@ -9,10 +9,15 @@ export const makeBlog = async (c: Context) => {
   const prisma = getPrismaClient(c);
   const body = await c.req.json();
 
-  const { success } = makeBlogPost.safeParse(body);
+  const { success, error } = makeBlogPost.safeParse({
+    title: body.title,
+    content: body.content,
+    published: false,
+    authorId: c.get("userId"),
+  });
   if (!success) {
     c.status(400);
-    return c.json({ error: "invalid input" });
+    return c.json({ error: "invalid input", details: error.errors });
   }
 
   try {
@@ -106,6 +111,16 @@ export const getBlog = async (c: Context) => {
       where: {
         id: postId,
       },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        author: {
+          select: {
+            username: true,
+          },
+        },
+      },
     });
 
     if (!getPost) {
@@ -138,7 +153,18 @@ export const getAllBlog = async (c: Context) => {
   const prisma = getPrismaClient(c);
 
   try {
-    const allPostTitles = await prisma.post.findMany();
+    const allPostTitles = await prisma.post.findMany({
+      select: {
+        content: true,
+        title: true,
+        id: true,
+        author: {
+          select: {
+            username: true,
+          },
+        },
+      },
+    });
 
     return c.json(
       {

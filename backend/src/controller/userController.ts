@@ -113,6 +113,7 @@ export const signin = async (c: Context) => {
       {
         id: checkUser.id,
         email: checkUser.email,
+        username: checkUser.username,
       },
       c.env.JWT_SECRET
     );
